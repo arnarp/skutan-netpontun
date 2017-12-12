@@ -1,0 +1,52 @@
+.LoadingPage {
+  height: 50vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@keyframes OceanLoadingAnimation {
+  0%,
+  80%,
+  100% {
+    fill: hsla(228, 42%, 46%, 1);
+  }
+  40% {
+    fill: hsla(228, 42%, 46%, 0.2);
+  }
+}
+@keyframes MastLoadingAnimation {
+  0%,
+  80%,
+  100% {
+    fill: hsla(2, 83%, 55%, 1);
+  }
+  40% {
+    fill: hsla(2, 83%, 55%, 0.2);
+  }
+}
+@keyframes SailsLoadingAnimation {
+  0%,
+  80%,
+  100% {
+    fill: hsla(57, 90%, 58%, 1);
+  }
+  40% {
+    fill: hsla(57, 90%, 58%, 0.2);
+  }
+}
+.App-logo {
+  height: 80px;
+}
+.App-logo .skutan-logo-ocean {
+  animation: OceanLoadingAnimation infinite 2s linear;
+}
+.App-logo .skutan-logo-mast {
+  animation: MastLoadingAnimation infinite 2s linear;
+  animation-delay: 667ms;
+}
+.App-logo .skutan-logo-sails {
+  animation: SailsLoadingAnimation infinite 2s linear;
+  animation-delay: 1333ms;
+}

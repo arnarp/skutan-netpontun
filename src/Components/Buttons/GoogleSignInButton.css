@@ -1,0 +1,23 @@
+.GoogleSignInButton {
+  height: 50px;
+  width: 240px;
+  background-color: #4285f4;
+  color: white;
+  padding: 1px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+}
+.GoogleSignInButton > .ImgContainer {
+  height: 48px;
+  width: 48px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.GoogleSignInButton > span {
+  flex-grow: 1;
+  text-align: center;
+}

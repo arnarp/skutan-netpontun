@@ -1,0 +1,71 @@
+.AppBar {
+  height: 48px;
+  width: 100vw;
+  padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+.AppBarNav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+.AppBarNav > a {
+  color: white;
+}
+.AppBarNav > * + * {
+  margin-left: 24px;
+}
+.AppBar .UserBtn {
+  background: transparent;
+  height: 48px;
+  width: 48px;
+  padding-left: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+.AppBar .UserImg {
+  height: 32px;
+  width: 32px;
+  border-radius: 17px;
+}
+.AppBarAccountPopover {
+  display: flex;
+  flex-direction: column;
+}
+.AppBarAccountPopover .Info {
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  line-height: 24px;
+}
+.AppBarAccountPopover .Info > * + * {
+  margin-left: 12px;
+}
+.AppBarAccountPopover .Info img {
+  height: 96px;
+  width: 96px;
+  border-radius: 48px;
+}
+.AppBarAccountPopover .ActionFooter {
+  background: #f5f5f5;
+  border-top: 1px solid #ccc;
+  height: 51px;
+  width: 100%;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.AppBarAccountPopover .ActionFooter button {
+  color: #666;
+  border: 1px solid #c6c6c6;
+  background: hsla(360, 100%, 100%, 0.1);
+  padding: 0 12px;
+}
