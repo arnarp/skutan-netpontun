@@ -9,18 +9,18 @@ import { Switch, Route } from 'react-router-dom'
 import { customerInviteRoutes } from '../Routes/CustomerInvite/routes'
 import { PageNotFound } from './PageNotFound'
 import { b64DecodeUnicode } from '../Utils/decode'
-
-interface Claims {
-  isAdmin: string | undefined
-}
+import { homePageRoutes } from '../Routes/HomePage/routes'
+import { UserClaims } from '../models'
+import { delay } from '../Utils/delay'
 
 export class App extends React.Component<
   {},
-  { user: User | undefined; loading: boolean; claims: Claims | undefined }
+  { user: User | undefined; loading: boolean; claims: UserClaims | undefined }
 > {
   removeAuthStateChangeListener: () => void
   constructor(props: {}) {
     super(props)
+    this.refreshAuthToken = this.refreshAuthToken.bind(this)
     this.state = { user: undefined, loading: true, claims: undefined }
   }
   componentDidMount() {
@@ -38,10 +38,36 @@ export class App extends React.Component<
       },
     )
   }
+  refreshAuthToken(
+    initialDelay: number = 0,
+    retryDelay: number = 2000,
+    until?: (claims: UserClaims) => boolean,
+  ) {
+    const loop: (user: User) => Promise<UserClaims> = user =>
+      user.getIdToken(true).then(idToken => {
+        const claims: UserClaims | undefined = JSON.parse(
+          b64DecodeUnicode(idToken.split('.')[1]),
+        )
+        if (claims === undefined || (until && !until(claims))) {
+          return delay(retryDelay).then(() => loop(user))
+        } else {
+          return Promise.resolve(claims)
+        }
+      })
+    return delay(initialDelay)
+      .then(() => {
+        if (!this.state.user) {
+          return Promise.reject('User not logged in')
+        }
+        return loop(this.state.user)
+      })
+      .then(claims => this.setState(() => ({ claims })))
+  }
   componentWillUnmount() {
     this.removeAuthStateChangeListener()
   }
   render() {
+    console.log('App render', this.state)
     return (
       <BrowserRouter>
         <div className="App">
@@ -50,7 +76,8 @@ export class App extends React.Component<
             {this.state.loading && <LoadingPage />}
             {!this.state.loading && (
               <Switch>
-                {customerInviteRoutes(this.state.user)}
+                {homePageRoutes}
+                {customerInviteRoutes(this.refreshAuthToken, this.state.user)}
                 <Route component={PageNotFound} />
               </Switch>
             )}

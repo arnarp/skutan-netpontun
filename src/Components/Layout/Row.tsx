@@ -1,26 +1,31 @@
 import * as React from 'react'
 import * as classNames from 'classnames'
-import './Col.css'
+import './Row.css'
+import { ReactNode } from 'react'
 
-interface ColProps {
-  children: React.ReactNode
+interface RowProps {
+  children: ReactNode
   spacing?: 'Medium'
   justifyContent?: 'Start' | 'End' | 'SpaceBetween' | 'Center'
-  className?: string
+  growChildren?: boolean
+  wrap?: boolean
+  breakPoint?: '610'
 }
 
-export const Col = (props: ColProps) => (
+export const Row = (props: RowProps) => (
   <div
     className={classNames(
-      'Col',
+      'Row',
       props.spacing ? `Spacing-${props.spacing}` : '',
       {
         JustifyContentStart: props.justifyContent === 'Start',
         JustifyContentEnd: props.justifyContent === 'End',
         JustifyContentSpaceBetween: props.justifyContent === 'SpaceBetween',
         JustifyContentCenter: props.justifyContent === 'Center',
+        GrowChildren: props.growChildren,
+        Wrap: props.wrap,
+        Break610: props.breakPoint === '610',
       },
-      props.className,
     )}
   >
     {props.children}

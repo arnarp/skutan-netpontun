@@ -2,13 +2,13 @@ import * as React from 'react'
 import './Button.css'
 import * as classNames from 'classnames'
 
-type ButtonStyle = 'Raised' | 'Action'
+type ButtonStyle = 'Raised' | 'Action' | 'Flat'
 
 interface ButtonProps {
   onClick?: () => void
   disabled?: boolean
   lookLikeDisabled?: boolean
-  color: 'Default' | 'Primary' | 'Secondary'
+  color: 'Default' | 'Primary' | 'Secondary' | 'White'
   style?: ButtonStyle
   type?: 'button' | 'submit'
 }

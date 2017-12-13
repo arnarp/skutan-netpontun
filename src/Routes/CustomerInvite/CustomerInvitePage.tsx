@@ -1,33 +1,45 @@
 import * as React from 'react'
 import { Col } from '../../Components/Layout/Col'
 import { RouteComponentProps } from 'react-router'
-import { CustomerInvitation } from '../../models'
+import { CustomerInvitation, RefreshAuthToken } from '../../models'
 import { LoadingPage } from '../../App/LoadingPage'
 import { User } from 'firebase/app'
 import { GoogleSignInButton } from '../../Components/Buttons/GoogleSignInButton'
 import { Button } from '../../Components/Buttons/Button'
+import { DoneIcon } from '../../Components/Icons/DoneIcon'
+import { Row } from '../../Components/Layout/Row'
 
 interface CustomerInvitePageProps extends RouteComponentProps<{ id?: string }> {
   user?: User
+  refreshAuthToken: RefreshAuthToken
 }
 interface CustomerInvitePageState {
   isInvitationLoaded: boolean
+  acceptInProgress: boolean
   error?: number
   invite?: CustomerInvitation
+  acceptDone: boolean
+  acceptError?: {}
 }
 export class CustomerInvitePage extends React.PureComponent<
   CustomerInvitePageProps,
   CustomerInvitePageState
 > {
+  mounted: boolean
   constructor(props: CustomerInvitePageProps) {
     super(props)
     this.state = {
+      acceptInProgress: false,
       isInvitationLoaded: false,
       error: undefined,
       invite: undefined,
+      acceptDone: false,
+      acceptError: undefined,
     }
+    this.onAccept = this.onAccept.bind(this)
   }
   componentDidMount() {
+    this.mounted = true
     const inviteId = this.props.match.params.id
     if (inviteId === undefined) {
     } else {
@@ -57,9 +69,54 @@ export class CustomerInvitePage extends React.PureComponent<
         })
     }
   }
+  componentWillUnmount() {
+    this.mounted = false
+  }
+  onAccept() {
+    if (this.state.invite && this.props.user) {
+      this.setState(() => ({ acceptInProgress: true }))
+      fetch(
+        `https://us-central1-skutan-82826.cloudfunctions.net/acceptCustomerInvite?id=${
+          this.state.invite.id
+        }&uid=${this.props.user.uid}`,
+        {
+          method: 'POST',
+        },
+      )
+        .then(response => {
+          if (response.status === 200 && this.props.user) {
+            return this.props
+              .refreshAuthToken(
+                3000,
+                3000,
+                claims =>
+                  this.state.invite !== undefined &&
+                  claims.customer !== undefined &&
+                  claims.customer[this.state.invite.customerId] !== undefined,
+              )
+              .then(() => {
+                if (this.mounted) {
+                  this.setState(() => ({
+                    acceptDone: true,
+                    acceptInProgress: false,
+                  }))
+                }
+              })
+          } else {
+            return this.setState(() => ({
+              acceptError: response.status,
+              acceptInProgress: false,
+            }))
+          }
+        })
+        .catch(error => {
+          this.setState(() => ({ acceptError: error, acceptInProgress: false }))
+        })
+    }
+  }
   render() {
     console.log('CustomerInvitePage', this.state, this.props)
-    if (!this.state.isInvitationLoaded) {
+    if (!this.state.isInvitationLoaded || this.state.acceptInProgress) {
       return <LoadingPage />
     }
     if (!this.state.invite) {
@@ -80,9 +137,24 @@ export class CustomerInvitePage extends React.PureComponent<
     if (this.state.invite.usedBy) {
       return (
         <Col>
-          <h1>Boðskort hefur nú þegar verið notað</h1>
+          {this.props.user &&
+            this.state.invite.usedBy.uid === this.props.user.uid && (
+              <h1>Þú hefur nú þegar notað þetta boðskort</h1>
+            )}
+          {!this.props.user ||
+            (this.state.invite.usedBy.uid !== this.props.user.uid && (
+              <h1>Boðskort hefur nú þegar verið notað</h1>
+            ))}
           <p>Hvert boðskort er aðeins hægt að nota einu sinni.</p>
         </Col>
+      )
+    }
+    if (this.state.acceptDone) {
+      return (
+        <Row justifyContent="Start" spacing="Medium">
+          <h1>Skráningu lokið</h1>
+          <DoneIcon size="XLarge" color="Green" />
+        </Row>
       )
     }
     return (
@@ -99,7 +171,7 @@ export class CustomerInvitePage extends React.PureComponent<
         ]}
         {this.props.user && (
           <div style={{ maxWidth: '100px' }}>
-            <Button color="Primary" onClick={() => ({})}>
+            <Button color="Primary" onClick={this.onAccept}>
               Klára skráningu
             </Button>
           </div>

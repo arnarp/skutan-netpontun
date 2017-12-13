@@ -1,10 +1,12 @@
 import * as React from 'react'
 import './AppBar.css'
+import * as firebase from 'firebase'
 import { User } from 'firebase/app'
 import { firebaseAuth } from '../../firebase'
 import { Link } from 'react-router-dom'
 import { Popover, PopoverControl } from '../../Components/Popover'
 import { Col } from '../../Components/Layout/Col'
+import { Button } from '../../Components/Buttons/Button'
 
 interface AppBarProps {
   user?: User
@@ -58,6 +60,22 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
               </div>
             </div>
           </Popover>
+        )}
+        {!this.props.user && (
+          <Button
+            color="White"
+            style="Flat"
+            onClick={() => {
+              const provider = new firebaseAuth.GoogleAuthProvider()
+              firebase
+                .auth()
+                .signInWithRedirect(provider)
+                .then(result => {})
+                .catch(function() {})
+            }}
+          >
+            Innskráning
+          </Button>
         )}
       </div>
     )

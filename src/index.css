@@ -1,4 +1,6 @@
 :root {
+  --black: hsla(0, 0%, 0%, 0.8);
+  --black-alpha025: hsla(0, 0%, 0%, 0.25);
   --default-color: hsla(0, 0%, 88%, 1);
   --default-color-alpha07: hsla(0, 0%, 88%, 0.7);
   --default-color-alpha02: hsla(0, 0%, 88%, 0.2);
@@ -7,8 +9,10 @@
   --primary-color-alpha02: hsla(207, 90%, 54%, 0.2);
   --secondary-color: hsla(340, 100%, 63%, 1);
   --secondary-color-alpha07: hsla(340, 100%, 63%, 0.7);
+  --secondary-color-alpha02: hsla(340, 100%, 63%, 0.2);
   --error-color: hsla(348, 100%, 55%, 1);
   --error-color-alpha02: hsla(348, 100%, 55%, 0.2);
+  --green-color: hsla(122, 39%, 49%, 1);
 }
 
 body {

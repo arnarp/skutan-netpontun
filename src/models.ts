@@ -24,7 +24,23 @@ export interface CustomerInvitation {
   expires: Date
   role: EmployeeRole
   usedBy?: {
-    userId: string
+    uid: string
     userDisplayName: string
   }
 }
+
+export interface UserClaims {
+  isAdmin: string | undefined
+  customer?: {
+    [customerId: string]: {
+      role: EmployeeRole
+      name: string
+    }
+  }
+}
+
+export type RefreshAuthToken = (
+  initialDelay: number,
+  retryDelay: number,
+  until?: (claims: UserClaims) => boolean,
+) => Promise<void>
