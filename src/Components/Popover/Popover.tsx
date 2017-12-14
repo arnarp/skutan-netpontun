@@ -9,6 +9,7 @@ export interface PopoverControl {
 export interface PopoverProps {
   button: JSX.Element
   deltaY: number
+  deltaX: number
   provideControl: (ctrl: PopoverControl | null) => void
 }
 interface PopoverState {
@@ -104,7 +105,9 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
                       }px`,
                       right: `${
                         this.buttonContainerRect
-                          ? window.innerWidth - this.buttonContainerRect.right
+                          ? window.innerWidth -
+                            this.buttonContainerRect.right +
+                            this.props.deltaX
                           : 0
                       }px`,
                     }}

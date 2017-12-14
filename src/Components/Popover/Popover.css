@@ -20,6 +20,7 @@
   border-radius: 2px;
   opacity: 0;
   transition: opacity 0.3s ease;
+  max-width: calc(100vw - 24px);
 }
 .PopoverContainer .Popover.entering {
   opacity: 0;

@@ -16,13 +16,14 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
   popover: PopoverControl | null
   render() {
     return (
-      <div role="banner" className="AppBar BlueBackground">
+      <div role="banner" className="AppBar">
         <nav className="AppBarNav">
           <Link to="/">Heim </Link>
         </nav>
         {this.props.user && (
           <Popover
             deltaY={-2}
+            deltaX={12}
             button={
               <button className="UserBtn">
                 {this.props.user.photoURL && (
@@ -40,12 +41,14 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
                   <img src={this.props.user.photoURL} />
                 )}
                 <Col>
-                  <span>{this.props.user.displayName}</span>
+                  <span className="Bold">{this.props.user.displayName}</span>
                   <span>{this.props.user.email}</span>
                 </Col>
               </div>
               <div className="ActionFooter">
-                <button
+                <Button
+                  color="Primary"
+                  style="Flat"
                   onClick={() => {
                     if (this.popover) {
                       this.popover.closePopover()
@@ -56,7 +59,7 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
                   }}
                 >
                   Útskráning
-                </button>
+                </Button>
               </div>
             </div>
           </Popover>
