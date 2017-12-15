@@ -2,19 +2,19 @@ import * as React from 'react'
 import { Col } from '../../Components/Layout/Col'
 import { BottomNavigation } from '../../Components/Nav/BottomNavigation'
 
-interface HomePageProps {}
-interface HomePageState {}
-export class HomePage extends React.PureComponent<
-  HomePageProps,
-  HomePageState
+interface ManagementIndexPageProps {}
+interface ManagementIndexPageState {}
+export class ManagementIndexPage extends React.PureComponent<
+  ManagementIndexPageProps,
+  ManagementIndexPageState
 > {
-  constructor(props: HomePageProps) {
+  constructor(props: ManagementIndexPageProps) {
     super(props)
   }
   render() {
     return (
       <Col>
-        <h1>n</h1>
+        <h1>Man</h1>
         <BottomNavigation />
       </Col>
     )

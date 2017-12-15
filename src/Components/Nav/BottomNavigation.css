@@ -1,0 +1,23 @@
+.BottomNavigation {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 56px;
+  background: white;
+  display: flex;
+  flex-direction: row;
+}
+.BottomNavigation > a {
+  flex-grow: 1;
+  min-width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.BottomNavigation > a svg {
+  fill: hsla(0, 0%, 0%, 0.54);
+}
+.BottomNavigation > a.active svg {
+  fill: var(--primary-color);
+}

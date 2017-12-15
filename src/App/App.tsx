@@ -12,6 +12,7 @@ import { b64DecodeUnicode } from '../Utils/decode'
 import { homePageRoutes } from '../Routes/HomePage/routes'
 import { UserClaims } from '../models'
 import { delay } from '../Utils/delay'
+import { managementRoutes } from '../Routes/Management/routes'
 
 export class App extends React.Component<
   {},
@@ -77,6 +78,7 @@ export class App extends React.Component<
             {!this.state.loading && (
               <Switch>
                 {homePageRoutes}
+                {managementRoutes()}
                 {customerInviteRoutes(this.refreshAuthToken, this.state.user)}
                 <Route component={PageNotFound} />
               </Switch>
