@@ -1,0 +1,51 @@
+.TableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+.Table {
+  width: 100%;
+  overflow: hidden;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.Table tr {
+  color: inherit;
+  height: 48px;
+  display: table-row;
+  vertical-align: middle;
+}
+.Table th {
+  font-size: 12px;
+}
+.Table td {
+  font-size: 13px;
+}
+.Table th,
+.Table td {
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+  padding: 4px 56px 4px 16px;
+  text-align: right;
+}
+.Table th:first-child,
+.Table td:first-child {
+  text-align: left;
+}
+.Table th:last-child,
+.Table td:last-child {
+  padding-right: 16px;
+}
+
+.Table thead {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+  font-weight: 500;
+}
+.Table thead > tr {
+  height: 56px;
+}
+@media only screen and (max-width: 610px) {
+  .Table th,
+  .Table td {
+    padding: 4px 16px 4px 16px;
+  }
+}

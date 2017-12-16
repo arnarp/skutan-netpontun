@@ -7,6 +7,7 @@ interface RowProps {
   children: ReactNode
   spacing?: 'Medium'
   justifyContent?: 'Start' | 'End' | 'SpaceBetween' | 'Center'
+  alignItems?: 'Center'
   growChildren?: boolean
   wrap?: boolean
   breakPoint?: '610'
@@ -22,6 +23,7 @@ export const Row = (props: RowProps) => (
         JustifyContentEnd: props.justifyContent === 'End',
         JustifyContentSpaceBetween: props.justifyContent === 'SpaceBetween',
         JustifyContentCenter: props.justifyContent === 'Center',
+        AlignItemsCenter: props.alignItems === 'Center',
         GrowChildren: props.growChildren,
         Wrap: props.wrap,
         Break610: props.breakPoint === '610',

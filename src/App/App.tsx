@@ -10,19 +10,23 @@ import { customerInviteRoutes } from '../Routes/CustomerInvite/routes'
 import { PageNotFound } from './PageNotFound'
 import { b64DecodeUnicode } from '../Utils/decode'
 import { homePageRoutes } from '../Routes/HomePage/routes'
-import { UserClaims } from '../models'
+import { UserClaims } from '../model'
 import { delay } from '../Utils/delay'
 import { managementRoutes } from '../Routes/Management/routes'
 
-export class App extends React.Component<
-  {},
-  { user: User | undefined; loading: boolean; claims: UserClaims | undefined }
-> {
+interface AppState {
+  user?: User
+  loading: boolean
+  claims?: UserClaims
+}
+
+export class App extends React.Component<{}, AppState> {
   removeAuthStateChangeListener: () => void
   constructor(props: {}) {
     super(props)
     this.refreshAuthToken = this.refreshAuthToken.bind(this)
     this.state = { user: undefined, loading: true, claims: undefined }
+    this.onLogout = this.onLogout.bind(this)
   }
   componentDidMount() {
     this.removeAuthStateChangeListener = firebaseAuth().onAuthStateChanged(
@@ -67,18 +71,21 @@ export class App extends React.Component<
   componentWillUnmount() {
     this.removeAuthStateChangeListener()
   }
+  onLogout() {
+    this.setState(() => ({ claims: undefined }))
+  }
   render() {
     console.log('App render', this.state)
     return (
       <BrowserRouter>
         <div className="App">
-          <AppBar user={this.state.user} />
+          <AppBar user={this.state.user} onLogout={this.onLogout} />
           <main className="AppMain">
             {this.state.loading && <LoadingPage />}
             {!this.state.loading && (
               <Switch>
                 {homePageRoutes}
-                {managementRoutes()}
+                {managementRoutes(this.state.claims)}
                 {customerInviteRoutes(this.refreshAuthToken, this.state.user)}
                 <Route component={PageNotFound} />
               </Switch>

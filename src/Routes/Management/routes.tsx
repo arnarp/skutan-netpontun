@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Route } from 'react-router-dom'
-import { ManagementIndexPage } from './ManagementIndexPage'
+import { ManagementIndexPage } from './ManagementIndexPage/ManagementIndexPage'
+import { UserClaims } from '../../model'
 
-export const managementRoutes = () => [
+export const managementRoutes = (userClaims?: UserClaims) => [
   <Route
     key="/managementIndexPage"
     path="/management"
-    render={props => <ManagementIndexPage />}
+    render={props => <ManagementIndexPage {...props} userClaims={userClaims} />}
   />,
 ]

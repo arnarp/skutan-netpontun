@@ -1,3 +1,28 @@
+/**
+ * Remove the variants of the second union of string literals from
+ * the first.
+ *
+ * @see https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458
+ */
+type Diff<T extends string, U extends string> = ({ [P in T]: P } &
+  { [P in U]: never } & { [x: string]: never })[T]
+
+/**
+ * Drop keys `K` from `T`.
+ *
+ * @see https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458
+ */
+export type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>
+
+export interface DB {
+  customerInvites: {
+    [invitationId: string]: Omit<CustomerInvitation, 'id'>
+  }
+  users: {
+    [uid: string]: Omit<UserRecord, 'uid'>
+  }
+}
+
 export interface Customer {
   readonly id: string
   readonly name: string
@@ -28,6 +53,7 @@ export interface CustomerInvitation {
     userDisplayName: string
   }
 }
+
 export interface UserRecord {
   uid: string
   displayName: string
@@ -36,13 +62,8 @@ export interface UserRecord {
   customerId?: string
 }
 export interface UserClaims {
-  isAdmin?: string
-  customer?: {
-    [customerId: string]: {
-      role: EmployeeRole
-      name: string
-    }
-  }
+  isAdmin?: boolean
+  customer?: { id: string; name: string; role: EmployeeRole }
 }
 
 export type RefreshAuthToken = (

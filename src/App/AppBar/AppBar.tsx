@@ -10,6 +10,7 @@ import { Button } from '../../Components/Buttons/Button'
 
 interface AppBarProps {
   user?: User
+  onLogout: () => void
 }
 
 export class AppBar extends React.PureComponent<AppBarProps, {}> {
@@ -54,6 +55,7 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
                       this.popover.closePopover()
                     }
                     setTimeout(() => {
+                      this.props.onLogout()
                       firebaseAuth().signOut()
                     }, 300)
                   }}
@@ -66,7 +68,7 @@ export class AppBar extends React.PureComponent<AppBarProps, {}> {
         )}
         {!this.props.user && (
           <Button
-            color="White"
+            color="Primary"
             style="Flat"
             onClick={() => {
               const provider = new firebaseAuth.GoogleAuthProvider()

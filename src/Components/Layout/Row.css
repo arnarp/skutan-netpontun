@@ -17,6 +17,9 @@
 .Row.JustifyContentCenter {
   justify-content: center;
 }
+.Row.AlignItemsCenter {
+  align-items: center;
+}
 .Row.Wrap {
   flex-wrap: wrap;
 }

@@ -1,0 +1,59 @@
+.ModalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+.ModalContainer.exited {
+  display: none;
+}
+.ModalContainer .Backdrop {
+  width: 100%;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.6);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+.ModalContainer .Backdrop.entering {
+  opacity: 0;
+}
+.ModalContainer .Backdrop.entered {
+  opacity: 1;
+}
+
+.Modal {
+  background: white;
+  position: absolute;
+  float: left;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  min-width: 308px;
+  max-height: calc(100vh - 24px);
+}
+.Modal.entering {
+  opacity: 0;
+}
+.Modal.entered {
+  opacity: 1;
+}
+.Modal > header {
+  padding: 0 0 0 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+}
+.Modal > header > h2 {
+  font-size: 16px;
+}
+.Modal > .ModalContent {
+  padding: 12px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 24px - 48px);
+}

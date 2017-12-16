@@ -1,5 +1,5 @@
 .Svg.Fill-Default {
-  fill: var(--default-color);
+  fill: var(--black-light);
 }
 .Svg.Fill-White {
   fill: white;

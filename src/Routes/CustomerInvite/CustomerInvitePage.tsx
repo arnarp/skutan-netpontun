@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Col } from '../../Components/Layout/Col'
 import { RouteComponentProps } from 'react-router'
-import { CustomerInvitation, RefreshAuthToken } from '../../models'
+import { CustomerInvitation, RefreshAuthToken } from '../../model'
 import { LoadingPage } from '../../App/LoadingPage'
 import { User } from 'firebase/app'
 import { GoogleSignInButton } from '../../Components/Buttons/GoogleSignInButton'
@@ -92,7 +92,7 @@ export class CustomerInvitePage extends React.PureComponent<
                 claims =>
                   this.state.invite !== undefined &&
                   claims.customer !== undefined &&
-                  claims.customer[this.state.invite.customerId] !== undefined,
+                  claims.customer.id === this.state.invite.customerId,
               )
               .then(() => {
                 if (this.mounted) {
