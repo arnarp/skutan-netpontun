@@ -2,7 +2,12 @@ import * as React from 'react'
 import { Card } from '../../../Components/Layout/Card'
 import { Table } from '../../../Components/Table/Table'
 import { getFirestore } from '../../../firebase'
-import { UserRecord, UserClaims, CustomerInvitation } from '../../../model'
+import {
+  UserRecord,
+  UserClaims,
+  CustomerInvitation,
+  Omit,
+} from '../../../model'
 import { Row } from '../../../Components/Layout/Row'
 import { SendEmployeeInvitationModal } from './SendEmployeeInvitationModal'
 import { IconButton } from '../../../Components/Buttons/IconButton'
@@ -35,7 +40,10 @@ export class EmployeesCard extends React.PureComponent<
             .where('customerId', '==', this.props.userClaims.customer.id)
             .onSnapshot(snapshot => {
               this.setState(() => ({
-                employees: snapshot.docs.map(d => ({ ...d.data(), uid: d.id })),
+                employees: snapshot.docs.map(d => ({
+                  ...(d.data() as Omit<UserRecord, 'uid'>),
+                  uid: d.id,
+                })),
               }))
             }),
           firestore
@@ -45,7 +53,7 @@ export class EmployeesCard extends React.PureComponent<
             .onSnapshot(snapshot => {
               this.setState(() => ({
                 invitations: snapshot.docs.map(d => ({
-                  ...d.data(),
+                  ...(d.data() as Omit<CustomerInvitation, 'id'>),
                   id: d.id,
                 })),
               }))
